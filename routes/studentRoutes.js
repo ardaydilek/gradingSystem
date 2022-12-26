@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models/projectModel").Project;
+const User = require("../models/userModel").User;
 // Router
 router.all("/*", (req, res, next) => {
     req.app.locals.layout = "student";
@@ -76,6 +77,20 @@ router.route("/projects/submitGrade")
                     res.send(err)
                 } else {
                     res.redirect(`${req.body.id}`)
+                }
+            }
+        );
+    });
+router.route("/projects/submitComment")
+    .post((req, res) => {
+        console.log(req.body.commentId, req.body.comment)
+        Project.findByIdAndUpdate(
+            req.body.commentId,
+            { $push: { comments: req.body.comment } }, (err) => {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.redirect(`${req.body.commentId}`)
                 }
             }
         );

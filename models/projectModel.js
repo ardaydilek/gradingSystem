@@ -20,7 +20,8 @@ const projectSchmema = new Schema({
     creationDate: {
         type: Date,
         default: Date.now()
-    }
+    },
+    comments: [String]
 })
 
 module.exports = { Project: mongoose.model("project", projectSchmema) };

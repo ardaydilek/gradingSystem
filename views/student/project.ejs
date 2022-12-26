@@ -4,8 +4,33 @@
       <div class="container py-5">
         <h1 class="display-5 fw-bold"><%= project.title %></h1>
         <p class="col-md-8 fs-4 mt-5"><%= project.desc %></p>
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <h6>Given Grades</h6>
+                <% project.gradesFromStudents.forEach((grade) => { %>
+                    <p> <%= grade.grade %></p>
+                <% }) %>
+            </div>
+            <% if(project.gradeFromTeacher){ %>
+                <div class="col-6">
+                    <h6>Your Teacher decided to gave justice</h6>
+                    <p> <%= project.gradeFromTeacher %></p>
+                </div>
+            <% } %>
+        </div>
+        <hr>
           <% if(project.user == req.user.id) { %>
                     <small>You cannot grade your project</small>
+                    <hr>
+                    <% if(project.comments.length != 0){ %>
+                        <h4>Comments</h4>
+                        <ul>
+                        <% project.comments.forEach((comment) => { %>
+                            <li><%= comment %></li>
+                        <% }) %>
+                        </ul>
+                    <% } %>
             <% } else { %>
                     <% let b=0; %>
                     <% project.gradesFromStudents.forEach((grade) => { %>
@@ -14,24 +39,39 @@
                     <% if(b != 0) { %>
                         <small>You cannot grades more than one</small>
                     <% } else { %>
-                         <form action="submitGrade" method="post" class="my-5">
-                        <h5 class="mb-3"> Give Grade </h5>
-                        <div class="row g-3 align-items-center mb-5">
-                            <div class="col-auto">
-                                <label for="inputPassword6" class="col-form-label">Grade</label>
+                        <form action="submitGrade" method="post" class="my-5">
+                            <h5 class="mb-3"> Give Grade </h5>
+                            <div class="row g-3 align-items-center mb-5">
+                                <div class="col-auto">
+                                    <label for="inputPassword6" class="col-form-label">Grade</label>
+                                </div>
+                                <div class="col-auto">
+                                    <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" name="grade">
+                                </div>
+                                <div class="col-auto">
+                                    <span id="passwordHelpInline" class="form-text">
+                                    Must be in range 0-100.
+                                    </span>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" name="grade">
-                            </div>
-                            <div class="col-auto">
-                                <span id="passwordHelpInline" class="form-text">
-                                Must be in range 0-100.
-                                </span>
-                            </div>
-                        </div>
-                        <button class="btn btn-success" type="submit" name="id" value="<%= project._id %>">Grade</button>
-                    </form>
+                            <button class="btn btn-success" type="submit" name="id" value="<%= project._id %>">Grade</button>
+                        </form>
                     <% } %>
+
+                    <hr>
+
+                    <form action="submitComment" method="post" class="my-5">
+                            <h5 class="mb-3"> Add Comment </h5>
+                            <div class="row g-3 align-items-center mb-5">
+                                <div class="col-12">
+                                    <label for="comment" class="col-form-label">Comment</label>
+                                </div>
+                                <div class="col-12">
+                                    <input type="textarea" id="comment" class="form-control" name="comment">
+                                </div>
+                            </div>
+                            <button class="btn btn-success" type="submit" name="commentId" value="<%= project._id %>">Add Comment</button>
+                    </form>
             <% } %>
       </div>
   </div>
