@@ -14,21 +14,32 @@
             </div>
             <% if(project.gradeFromTeacher){ %>
                 <div class="col-6">
-                    <h6>Final Grades</h6>
+                    <h6>JUSTICE</h6>
                     <p> <%= project.gradeFromTeacher %></p>
                 </div>
             <% } %>
             
         </div>
         <hr>
-          <form action="finalGrade" method="post" class="my-5">
+            <% let max = 0; let min = 100; %>
+          <% if(project.gradesFromStudents.forEach((grade) => {  %>
+                <% if(grade.grade > max) { %>
+                   <% max = grade.grade; %>
+                <% } %>
+                <% if(grade.grade < min) { %>
+                    <% min = grade.grade; %>
+                <% } %>
+         <% }))  %>
+         <% if(max-min>70){ %>
+            <h3> Seems like there is an injustice </h3>
+            <form action="finalGrade" method="post" class="my-5">
             <h6 class="mb-3"> Give Final Grade </h5>
             <div class="row g-3 align-items-center mb-5">
                 <div class="col-auto">
                     <label for="inputPassword6" class="col-form-label">Grade</label>
                 </div>
                 <div class="col-auto">
-                    <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" name="finalGrade">
+                    <input type="number" id="inputPassword6" name="finalGrade" min="0" max="100" aria-describedby="passwordHelpInline" class="form-control">
                 </div>
                 <div class="col-auto">
                 <span id="passwordHelpInline" class="form-text">
@@ -38,6 +49,16 @@
             </div>
                 <button class="btn btn-success" type="submit" name="id" value="<%= project._id %>">Grade</button>
           </form>
+         <% } else { %>
+            <h3> Seems fine </h3>
+            <% let avg = 0; %>
+            <% project.gradesFromStudents.forEach((grade) => { %>
+               <% avg = avg + grade.grade; %>
+            <% }) %>
+            <% avg = (avg)/(project.gradesFromStudents.length) %>
+            <span><b>Current average:</b>  <%= avg %></span>
+         <% } %>
+          
       </div>
   </div>
 
