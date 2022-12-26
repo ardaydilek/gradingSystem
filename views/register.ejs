@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+<main class="container">
+  <form action="/register" method="POST">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp">
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+    </div>
+    <div class="form-floating mb-3">
+      <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="role2">
+        <option value="1">Teacher</option>
+        <option value="2">Student</option>
+      </select>
+      <label for="floatingSelect">Roles</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</main>
+
+
+<%- include('partials/footer') %>

@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+
+  <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container py-5">
+        <h1 class="display-5 fw-bold"><%= project.title %></h1>
+        <p class="col-md-8 fs-4 mt-5"><%= project.desc %></p>
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <h6>Given Grades</h6>
+                <% project.gradesFromStudents.forEach((grade) => { %>
+                    <p> <%= grade.grade %></p>
+                <% }) %>
+            </div>
+            <% if(project.gradeFromTeacher){ %>
+                <div class="col-6">
+                    <h6>Final Grades</h6>
+                    <p> <%= project.gradeFromTeacher %></p>
+                </div>
+            <% } %>
+            
+        </div>
+        <hr>
+          <form action="finalGrade" method="post" class="my-5">
+            <h6 class="mb-3"> Give Final Grade </h5>
+            <div class="row g-3 align-items-center mb-5">
+                <div class="col-auto">
+                    <label for="inputPassword6" class="col-form-label">Grade</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" name="finalGrade">
+                </div>
+                <div class="col-auto">
+                <span id="passwordHelpInline" class="form-text">
+                    Must be in range 0-100.
+                </span>
+                </div>
+            </div>
+                <button class="btn btn-success" type="submit" name="id" value="<%= project._id %>">Grade</button>
+          </form>
+      </div>
+  </div>
+
+<%- include('../partials/footer') %>

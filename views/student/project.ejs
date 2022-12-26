@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+
+  <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container py-5">
+        <h1 class="display-5 fw-bold"><%= project.title %></h1>
+        <p class="col-md-8 fs-4 mt-5"><%= project.desc %></p>
+          <% if(project.user == req.user.id) { %>
+                    <small>You cannot grade your project</small>
+            <% } else { %>
+                    <% let b=0; %>
+                    <% project.gradesFromStudents.forEach((grade) => { %>
+                       <% if(grade.ratedUser == req.user.id) {b = b+1} %>
+                    <%  }) %>
+                    <% if(b != 0) { %>
+                        <small>You cannot grades more than one</small>
+                    <% } else { %>
+                         <form action="submitGrade" method="post" class="my-5">
+                        <h5 class="mb-3"> Give Grade </h5>
+                        <div class="row g-3 align-items-center mb-5">
+                            <div class="col-auto">
+                                <label for="inputPassword6" class="col-form-label">Grade</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" name="grade">
+                            </div>
+                            <div class="col-auto">
+                                <span id="passwordHelpInline" class="form-text">
+                                Must be in range 0-100.
+                                </span>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" type="submit" name="id" value="<%= project._id %>">Grade</button>
+                    </form>
+                    <% } %>
+            <% } %>
+      </div>
+  </div>
+
+<%- include('../partials/footer') %>

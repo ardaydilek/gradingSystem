@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<div class="container">
+<form action="submitProject" method="post">
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input type="text" class="form-control" id="title" name="title">
+  </div>
+  <div class="mb-3">
+    <label for="desc" class="form-label">Description</label>
+    <input type="textare" class="form-control" id="desc" name="desc">
+  </div>
+  <div class="mb-3">
+    <label for="file" class="form-label">PDF File</label>
+    <input class="form-control" type="file" id="formFile" name="file" accept="pdf/*">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+<%- include('../partials/footer') %>
