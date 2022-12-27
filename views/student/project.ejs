@@ -1,33 +1,46 @@
 <%- include('../partials/header') %>
-
-  <div class="p-5 mb-4 bg-light rounded-3">
+    
+  <div class="p-5 mb-4 rounded-3">
       <div class="container py-5">
-        <h1 class="display-5 fw-bold"><%= project.title %></h1>
-        <p class="col-md-8 fs-4 mt-5"><%= project.desc %></p>
-        <hr>
+       <% if(message.length > 0) { %>
+            <div class="alert alert-success">
+            <%= message %>
+            </div>
+        <% } %>
+         <div class="row mb-5">
+            <h1 class="display-5 fw-bold">Title: <%= project.title %></h1>
+            <p class="col-md-12 mt-5">Description: <%= project.desc %></p>
+            <hr>
+        </div>
         <div class="row">
             <div class="col-6">
-                <h6>Given Grades</h6>
+                <% if(project.gradesFromStudents.length != 0){ %>
+                    <h6>Given Grades</h6>
+                <% } %>
                 <% project.gradesFromStudents.forEach((grade) => { %>
-                    <p> <%= grade.grade %></p>
+                    <span> <%= grade.grade %> </span>
                 <% }) %>
             </div>
             <% if(project.gradeFromTeacher){ %>
                 <div class="col-6">
-                    <h6>Your Teacher decided to gave justice</h6>
+                    <h6>Your teacher decided to gave justice</h6>
                     <p> <%= project.gradeFromTeacher %></p>
                 </div>
             <% } %>
         </div>
-        <hr>
+         <% if(project.gradesFromStudents.length != 0){ %>
+                    <hr>
+            <% } %>
           <% if(project.user == req.user.id) { %>
-                    <small>You cannot grade your project</small>
+                    <div class="alert alert-danger" role="alert">
+                        <small>You cannot grade your project</small>
+                    </div>
                     <hr>
                     <% if(project.comments.length != 0){ %>
                         <h4>Comments</h4>
                         <ul>
                         <% project.comments.forEach((comment) => { %>
-                            <li><%= comment %></li>
+                            <li><%= comment.comment %></li>
                         <% }) %>
                         </ul>
                     <% } %>
@@ -37,11 +50,14 @@
                        <% if(grade.ratedUser == req.user.id) {b = b+1} %>
                     <%  }) %>
                     <% if(b != 0) { %>
-                        <small>You cannot grades more than one</small>
+                        <div class="alert alert-danger" role="alert">
+                        You can only score once.
+                        </div>
+                        
                     <% } else { %>
                         <form action="submitGrade" method="post" class="my-5">
-                            <h5 class="mb-3"> Give Grade </h5>
-                            <div class="row g-3 align-items-center mb-5">
+                            <h5 class="mb-3"> Rate it </h5>
+                            <div class="row g-3 align-items-center mb-2">
                                 <div class="col-auto">
                                     <label for="inputPassword6" class="col-form-label">Grade</label>
                                 </div>
@@ -50,27 +66,36 @@
                                 </div>
                                 <div class="col-auto">
                                     <span id="passwordHelpInline" class="form-text">
-                                    Must be in range 0-100.
+                                    You cannot change your score later, choose wisely.
                                     </span>
                                 </div>
                             </div>
-                            <button class="btn btn-success" type="submit" name="id" value="<%= project._id %>">Grade</button>
+                            <button class="btn btn-success btn-sm" type="submit" name="id" value="<%= project._id %>">Grade</button>
                         </form>
                     <% } %>
-
                     <hr>
-
+                    <% project.comments.forEach((comment) => { %>
+                        <% if(comment.commentedUser == req.user.id){ %>
+                        <h6> Your Comments </h6>
+                         <ul>
+                        <form action="deleteComment" method="POST">
+                            <li><input type="checkbox" name="checkbox" value="<%= comment._id%>" onChange="this.form.submit()"/>
+                            <%=  comment.comment  %></li>
+                            <input type="hidden" name="projectId" value="<%= project._id %>" />
+                        </form>
+                        </ul>
+                         <hr>
+                       <% } %>
+                    <% }) %>
+                    
                     <form action="submitComment" method="post" class="my-5">
                             <h5 class="mb-3"> Add Comment </h5>
-                            <div class="row g-3 align-items-center mb-5">
-                                <div class="col-12">
-                                    <label for="comment" class="col-form-label">Comment</label>
-                                </div>
+                            <div class="row g-3 align-items-center mb-2">
                                 <div class="col-12">
                                     <input type="textarea" id="comment" class="form-control" name="comment">
                                 </div>
                             </div>
-                            <button class="btn btn-success" type="submit" name="commentId" value="<%= project._id %>">Add Comment</button>
+                            <button class="btn btn-success btn-sm" type="submit" name="commentId" value="<%= project._id %>">Add</button>
                     </form>
             <% } %>
       </div>

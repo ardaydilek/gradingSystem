@@ -21,7 +21,13 @@ const projectSchmema = new Schema({
         type: Date,
         default: Date.now()
     },
-    comments: [String]
+    comments: [{
+        comment: String,
+        commentedUser: {
+            type: Schema.Types.ObjectId,
+            ref: 'user'
+        }
+    }]
 })
 
 module.exports = { Project: mongoose.model("project", projectSchmema) };

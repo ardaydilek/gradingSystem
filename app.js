@@ -47,7 +47,13 @@ app.route('/')
     });
 app.route("/register")
     .get((req, res) => {
-        res.render("register", { req: req });
+        if (req.isAuthenticated() && req.user.role == "Student") {
+            res.redirect('/student')
+        } else if (req.isAuthenticated() && req.user.role == "Teacher") {
+            res.redirect('/teacher')
+        } else {
+            res.render("register", { req: req });
+        }
     })
     .post((req, res) => {
         let role;
@@ -71,7 +77,13 @@ app.route("/register")
 
 app.route("/login")
     .get((req, res) => {
-        res.render("login", { req: req });
+        if (req.isAuthenticated() && req.user.role == "Student") {
+            res.redirect('/student')
+        } else if (req.isAuthenticated() && req.user.role == "Teacher") {
+            res.redirect('/teacher')
+        } else {
+            res.render("login", { req: req });
+        }
     })
     .post(passport.authenticate('local', { failureRedirect: '/login' }),
         function (req, res) {

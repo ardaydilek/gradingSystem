@@ -1,21 +1,28 @@
 <%- include('../partials/header') %>
 
-  <div class="p-5 mb-4 bg-light rounded-3">
+  <div class="p-5 mb-4 rounded-3">
       <div class="container py-5">
-        <h1 class="display-5 fw-bold"><%= project.title %></h1>
-        <p class="col-md-8 fs-4 mt-5"><%= project.desc %></p>
-        <hr>
+        <% if(message.length > 0) { %>
+            <div class="alert alert-success">
+            <%= message %>
+            </div>
+        <% } %>
+        <div class="row mb-5">
+            <h1 class="display-5 fw-bold">Title: <%= project.title %></h1>
+            <p class="col-md-12 mt-5">Description: <%= project.desc %></p>
+            <hr>
+        </div>
         <div class="row">
             <div class="col-6">
                 <h6>Given Grades</h6>
                 <% project.gradesFromStudents.forEach((grade) => { %>
-                    <p> <%= grade.grade %></p>
+                    <span> <%= grade.grade %> </span>
                 <% }) %>
             </div>
             <% if(project.gradeFromTeacher){ %>
                 <div class="col-6">
                     <h6>JUSTICE</h6>
-                    <p> <%= project.gradeFromTeacher %></p>
+                    <span> <%= project.gradeFromTeacher %> </span>
                 </div>
             <% } %>
             
@@ -31,32 +38,36 @@
                 <% } %>
          <% }))  %>
          <% if(max-min>70){ %>
-            <h3> Seems like there is an injustice </h3>
-            <form action="finalGrade" method="post" class="my-5">
-            <h6 class="mb-3"> Give Final Grade </h5>
-            <div class="row g-3 align-items-center mb-5">
-                <div class="col-auto">
-                    <label for="inputPassword6" class="col-form-label">Grade</label>
-                </div>
-                <div class="col-auto">
-                    <input type="number" id="inputPassword6" name="finalGrade" min="0" max="100" aria-describedby="passwordHelpInline" class="form-control">
-                </div>
-                <div class="col-auto">
-                <span id="passwordHelpInline" class="form-text">
-                    Must be in range 0-100.
-                </span>
-                </div>
+            <div class="row mt-5">
+                <h3> Seems like there is an injustice </h3>
+                <form action="finalGrade" method="post" class="my-3">
+                    <h6 class="mb-3"> Give Final Grade </h5>
+                    <div class="row g-3 align-items-center mb-2">
+                        <div class="col-auto">
+                            <label for="inputPassword6" class="col-form-label">Grade</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="number" id="inputPassword6" name="finalGrade" min="0" max="100" aria-describedby="passwordHelpInline" class="form-control">
+                        </div>
+                        <div class="col-auto">
+                        <span id="passwordHelpInline" class="form-text">
+                            Must be in range 0-100.
+                        </span>
+                        </div>
+                    </div>
+                    <button class="btn btn-success btn-sm" type="submit" name="id" value="<%= project._id %>">Grade</button>
+                </form>
             </div>
-                <button class="btn btn-success" type="submit" name="id" value="<%= project._id %>">Grade</button>
-          </form>
          <% } else { %>
-            <h3> Seems fine </h3>
-            <% let avg = 0; %>
-            <% project.gradesFromStudents.forEach((grade) => { %>
-               <% avg = avg + grade.grade; %>
-            <% }) %>
-            <% avg = (avg)/(project.gradesFromStudents.length) %>
-            <span><b>Current average:</b>  <%= avg %></span>
+            <div class="row mt-5">
+                <h3> Seems fine </h3>
+                <% let avg = 0; %>
+                <% project.gradesFromStudents.forEach((grade) => { %>
+                <% avg = avg + grade.grade; %>
+                <% }) %>
+                <% avg = (avg)/(project.gradesFromStudents.length) %>
+                <span><b>Current average:</b>  <%= avg %></span>
+            </div>
          <% } %>
           
       </div>

@@ -1,14 +1,18 @@
 <%- include('../partials/header.ejs') %>
-  <div class="container">
-    <h1> Dashboard </h1>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12 d-flex flex-row">
+        <h2> Projects <img src="images/share.gif" style="width:10%;"> </h2>
+      </div>
+    </div>
       <div class="row my-5 gap-3 gap-md-0">
       <% project.forEach((project) => { %>
         <% if(project.user != req.user.id) { %>
-        <div class="col-12 col-md-6 col-lg-3 align-items-center">
-          <div class="card">
+        <div class="col-12 col-md-6 col-lg-3 mb-3 align-items-center">
+          <div class="card h-100">
             <div class="card-body">
-              <h5 class="card-title"><%= project.title %></h5>
-              <p class="card-text text-truncate"><%= project.desc %></p>
+              <h5 class="card-title">🥵 <%= project.title %></h5>
+              <p class="card-text text-truncate"><img src="images/turn-right.gif" style="width:10%;"><%= project.desc %></p>
               <%
                 const monthNames = [
                       'January', 'February', 'March',
@@ -20,8 +24,8 @@
                 const m = monthNames[project.creationDate.getMonth()];
                 const y = project.creationDate.getFullYear();
               %>
-              <p class="card-text"><small> <%= d %> <%= m %> <%= y %> </small></p>
-              <a href="teacher/projects/<%=project.id%>" class="card-link">Review</a>
+              <p class="card-text"><img src="images/ticket.gif" style="width:10%;"><small> <%= d %> <%= m %> <%= y %> </small></p>
+              <a href="teacher/projects/<%=project.id%>" class="card-link" style="color:black;"><img src="images/note.gif" style="width:10%;">Review</a>
             </div>
           </div>
         </div>

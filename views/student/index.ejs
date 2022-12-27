@@ -1,17 +1,25 @@
 <%- include('../partials/header') %>
 
 <div class="container mt-5">
-  
-  <!-- Your Project --> 
-  <div class="row my-5 gap-3 gap-md-0">
-  <h2> Your Projects </h2>
+  <% if(message.length > 0) { %>
+    <div class="alert alert-success">
+    <%= message %>
+    </div>
+  <% } %>
+
+  <div class="row">
+    <div class="col-12 d-flex flex-row">
+      <h2> Your Projects <img src="images/mortarboard.gif" style="width:10%;"> </h2>
+    </div>
+  </div>
+  <div class="row my-3 gap-3 gap-md-0">
     <% project.forEach((project) => { %>
         <% if(project.user == req.user.id) { %>
-        <div class="col-12 col-md-6 col-lg-3 align-items-center">
-          <div class="card">
+        <div class="col-12 col-md-6 col-lg-3 mb-2 align-items-center">
+          <div class="card h-100">
             <div class="card-body">
-              <h5 class="card-title"><%= project.title %></h5>
-              <p class="card-text text-truncate"><%= project.desc %></p>
+              <h5 class="card-title">🥵 <%= project.title %></h5>
+              <p class="card-text text-truncate"><img src="images/turn-right.gif" style="width:10%;"><%= project.desc %></p>
               <%
                 const monthNames = [
                       'January', 'February', 'March',
@@ -23,8 +31,8 @@
                 const m = monthNames[project.creationDate.getMonth()];
                 const y = project.creationDate.getFullYear();
               %>
-              <p class="card-text"><small> <%= d %> <%= m %> <%= y %> </small></p>
-              <a href="student/projects/<%=project.id%>" class="card-link">Review</a>
+              <p class="card-text"><img src="images/ticket.gif" style="width:10%;"><small> <%= d %> <%= m %> <%= y %> </small></p>
+              <a href="student/projects/<%=project.id%>" class="card-link" style="color:black;"><img src="images/note.gif" style="width:10%;">Review</a>
             </div>
           </div>
         </div>
@@ -32,15 +40,19 @@
     <% }) %>
     </div>
     <hr>
-    <h2> Others Projects </h2>
-    <div class="row my-5 gap-3 gap-md-0">
+    <div class="row">
+      <div class="col-12 d-flex flex-row">
+        <h2> Others Projects <img src="images/thumbs-up.gif" style="width:8%;"> </h2>
+      </div>
+    </div>
+    <div class="row my-3 gap-3 gap-md-0">
       <% project.forEach((project) => { %>
         <% if(project.user != req.user.id) { %>
-        <div class="col-12 col-md-6 col-lg-3 align-items-center">
-          <div class="card">
+        <div class="col-12 col-md-6 col-lg-3 mb-2 align-items-center">
+          <div class="card h-100">
             <div class="card-body">
-              <h5 class="card-title"><%= project.title %></h5>
-              <p class="card-text text-truncate"><%= project.desc %></p>
+              <h5 class="card-title">🥵 <%= project.title %></h5>
+              <p class="card-text text-truncate"><img src="images/turn-right.gif" style="width:10%;"><%= project.desc %></p>
               <%
                 const monthNames = [
                       'January', 'February', 'March',
@@ -52,15 +64,15 @@
                 const m = monthNames[project.creationDate.getMonth()];
                 const y = project.creationDate.getFullYear();
               %>
-              <p class="card-text"><small> <%= d %> <%= m %> <%= y %> </small></p>
-              <a href="student/projects/<%=project.id%>" class="card-link">Review</a>
+              <p class="card-text"><img src="images/ticket.gif" style="width:10%;"><small> <%= d %> <%= m %> <%= y %> </small></p>
+              <a href="student/projects/<%=project.id%>" class="card-link" style="color:black;"><img src="images/note.gif" style="width:10%;">Review</a>
             </div>
           </div>
         </div>
         <% } %>
     <% }) %>
 
-    <button type="button" class="btn btn-warning mt-5"><a href="student/submitProject">Submit Homework</a></button>
+    <a href="student/submitProject"><button type="button" class="btn btn-warning mt-5">Submit Homework</button></a>
   </div>
 </div>
 <%- include('../partials/footer') %>
