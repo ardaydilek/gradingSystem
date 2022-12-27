@@ -20,7 +20,8 @@ app.use(session({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:27017/${process.env.DB_NAME}`)
+// mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:27017/${process.env.DB_NAME}`)
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}`)
 const User = require("./models/userModel").User;
 const Project = require("./models/projectModel").Project;
 passport.use(User.createStrategy());
